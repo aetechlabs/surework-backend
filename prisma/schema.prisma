@@ -1,0 +1,230 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CLIENT
+  FREELANCER
+  ADMIN
+}
+
+enum GigStatus {
+  CREATED
+  FUNDED
+  SUBMITTED
+  COMPLETED
+  DISPUTED
+  CANCELLED
+  REFUNDED
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  fullName      String
+  role          UserRole @default(FREELANCER)
+  walletAddress String   @unique
+  
+  // Profile
+  bio           String?
+  avatarUrl     String?
+  skills        String[] // Array of skills
+  hourlyRate    Decimal? @db.Decimal(10, 2)
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastLoginAt   DateTime?
+
+  // Relations
+  gigsAsClient      Gig[]         @relation("ClientGigs")
+  gigsAsFreelancer  Gig[]         @relation("FreelancerGigs")
+  messagesSent      Message[]     @relation("SentMessages")
+  messagesReceived  Message[]     @relation("ReceivedMessages")
+  notifications     Notification[]
+  reviews           Review[]      @relation("ReviewsReceived")
+  reviewsGiven      Review[]      @relation("ReviewsGiven")
+
+  @@index([email])
+  @@index([walletAddress])
+}
+
+model Gig {
+  id                String     @id @default(uuid())
+  blockchainGigId   Int?       @unique // Maps to on-chain gig ID
+  
+  // Parties
+  clientId          String
+  client            User       @relation("ClientGigs", fields: [clientId], references: [id])
+  freelancerId      String
+  freelancer        User       @relation("FreelancerGigs", fields: [freelancerId], references: [id])
+  
+  // Gig Details
+  title             String
+  description       String
+  category          String
+  skills            String[]
+  
+  // Payment
+  amount            Decimal    @db.Decimal(18, 6)
+  paymentToken      String     // Token contract address
+  currency          String     @default("USDC")
+  
+  // Timeline
+  deadline          DateTime
+  estimatedHours    Int?
+  
+  // Status
+  status            GigStatus  @default(CREATED)
+  
+  // Blockchain sync
+  txHash            String?    // Transaction hash for funding
+  fundedAt          DateTime?
+  completedAt       DateTime?
+  
+  // Metadata
+  attachments       String[]   // URLs to files (IPFS or cloud storage)
+  metadataURI       String?    // IPFS URI for additional metadata
+  
+  // Timestamps
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  // Relations
+  messages          Message[]
+  milestones        Milestone[]
+  disputes          Dispute[]
+  reviews           Review[]
+
+  @@index([clientId])
+  @@index([freelancerId])
+  @@index([status])
+  @@index([blockchainGigId])
+}
+
+model Milestone {
+  id              String    @id @default(uuid())
+  gigId           String
+  gig             Gig       @relation(fields: [gigId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String?
+  amount          Decimal   @db.Decimal(18, 6)
+  dueDate         DateTime
+  
+  isCompleted     Boolean   @default(false)
+  completedAt     DateTime?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([gigId])
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  gigId       String
+  gig         Gig      @relation(fields: [gigId], references: [id], onDelete: Cascade)
+  
+  senderId    String
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId  String
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  
+  content     String
+  isRead      Boolean  @default(false)
+  attachments String[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([gigId])
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+model Dispute {
+  id              String   @id @default(uuid())
+  gigId           String
+  gig             Gig      @relation(fields: [gigId], references: [id], onDelete: Cascade)
+  
+  initiatedBy     String   // userId
+  reason          String
+  evidence        String[] // URLs to evidence files
+  adminNotes      String?
+  
+  isResolved      Boolean  @default(false)
+  resolution      String?  // Outcome description
+  resolvedAt      DateTime?
+  resolvedBy      String?  // Admin user id
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([gigId])
+  @@index([isResolved])
+}
+
+model Review {
+  id            String   @id @default(uuid())
+  gigId         String   @unique
+  gig           Gig      @relation(fields: [gigId], references: [id], onDelete: Cascade)
+  
+  reviewerId    String
+  reviewer      User     @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  revieweeId    String
+  reviewee      User     @relation("ReviewsReceived", fields: [revieweeId], references: [id])
+  
+  rating        Int      // 1-5 stars
+  comment       String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([revieweeId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type      String   // GIG_FUNDED, WORK_SUBMITTED, APPROVED, etc.
+  title     String
+  message   String
+  data      Json?    // Additional metadata
+  
+  isRead    Boolean  @default(false)
+  readAt    DateTime?
+  
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+model BlockchainEvent {
+  id              String   @id @default(uuid())
+  eventName       String   // GigCreated, GigFunded, etc.
+  contractAddress String
+  blockNumber     Int
+  transactionHash String   @unique
+  gigId           Int?
+  
+  eventData       Json     // Full event data
+  processed       Boolean  @default(false)
+  
+  createdAt       DateTime @default(now())
+
+  @@index([eventName])
+  @@index([processed])
+  @@index([blockNumber])
+}
