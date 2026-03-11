@@ -1,0 +1,29 @@
+2026-03-11 12:06:12 [info]: 🚀 SureWork API server running on port 3000
+2026-03-11 12:06:12 [info]: Environment: development
+2026-03-11 12:06:12 [info]: Network: localhost
+2026-03-11 12:06:49 [info]: GET /health {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:07:00 [info]: GET / {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"}
+2026-03-11 12:07:50 [info]: GET /health {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:07:50 [info]: POST /api/auth/register {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:07:57 [info]: GET /health {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:04 [info]: POST /api/auth/register {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:04 [error]: AppError: Email already registered {"statusCode":400,"path":"/api/auth/register"}
+2026-03-11 12:08:14 [info]: POST /api/auth/login {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:23 [info]: GET /api/gigs {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:23 [info]: POST /api/auth/register {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:33 [info]: GET /api/gigs {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:46 [info]: POST /api/gigs {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:46 [error]: AppError: Invalid value, Invalid value, Invalid value {"statusCode":400,"path":"/api/gigs"}
+2026-03-11 12:08:53 [info]: POST /api/gigs {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:08:53 [error]: AppError: Invalid value, Invalid value, Invalid value {"statusCode":400,"path":"/api/gigs"}
+2026-03-11 12:09:13 [info]: POST /api/auth/register {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:09:13 [error]: AppError: Email already registered {"statusCode":400,"path":"/api/auth/register"}
+2026-03-11 12:09:13 [info]: POST /api/auth/login {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:09:24 [info]: POST /api/gigs {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:09:38 [info]: GET /api/gigs {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:09:56 [info]: GET /api/messages/61cbc1e2-85b0-4c96-b55d-5ca8386d70c2 {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:09:56 [info]: POST /api/messages/61cbc1e2-85b0-4c96-b55d-5ca8386d70c2 {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:10:02 [info]: GET /api/messages/61cbc1e2-85b0-4c96-b55d-5ca8386d70c2 {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:10:57 [info]: GET /api/messages/gig/61cbc1e2-85b0-4c96-b55d-5ca8386d70c2 {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:10:58 [info]: POST /api/messages {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
+2026-03-11 12:11:09 [info]: GET /api/messages/gig/61cbc1e2-85b0-4c96-b55d-5ca8386d70c2 {"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.7918"}
