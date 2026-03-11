@@ -64,7 +64,7 @@ router.get(
   '/',
   authenticate,
   authorize('ADMIN'),
-  async (req, res, next) => {
+  async (_req, res, next) => {
     try {
       const disputes = await prisma.dispute.findMany({
         include: {

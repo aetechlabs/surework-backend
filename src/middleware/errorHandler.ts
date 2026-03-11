@@ -14,11 +14,12 @@ export class AppError extends Error {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const errorHandler = (
   err: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   if (err instanceof AppError) {
     logger.error(`AppError: ${err.message}`, {

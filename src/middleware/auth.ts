@@ -39,7 +39,8 @@ export const authenticate = (
 };
 
 export const authorize = (...roles: string[]) => {
-  return (req: AuthRequest, res: Response, next: NextFunction) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return (req: AuthRequest, _res: Response, next: NextFunction) => {
     if (!req.userRole || !roles.includes(req.userRole)) {
       return next(new AppError('Insufficient permissions', 403));
     }
