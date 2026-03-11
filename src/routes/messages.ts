@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Response as ExpressResponse, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
 import { authenticate } from '../middleware/auth';
@@ -18,7 +18,7 @@ router.post(
     body('content').trim().notEmpty(),
     validate,
   ],
-  async (req: any, res, next) => {
+  async (req: any, res: ExpressResponse, next: NextFunction) => {
     try {
       const { gigId, receiverId, content, attachments } = req.body;
 

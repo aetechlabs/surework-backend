@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Response as ExpressResponse, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
 import { authenticate, authorize } from '../middleware/auth';
@@ -17,7 +17,7 @@ router.post(
     body('reason').trim().notEmpty(),
     validate,
   ],
-  async (req: any, res, next) => {
+  async (req: any, res: ExpressResponse, next: NextFunction) => {
     try {
       const { gigId, reason, evidence } = req.body;
 
@@ -99,7 +99,7 @@ router.patch(
     body('winner').isIn(['client', 'freelancer']),
     validate,
   ],
-  async (req: any, res, next) => {
+  async (req: any, res: ExpressResponse, next: NextFunction) => {
     try {
       const { disputeId } = req.params;
       const { resolution, winner } = req.body;

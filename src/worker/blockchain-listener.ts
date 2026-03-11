@@ -63,19 +63,19 @@ export class BlockchainListener {
     });
 
     // WorkSubmitted
-    this.contract.on('WorkSubmitted', async (gigId, freelancer, event) => {
+    this.contract.on('WorkSubmitted', async (gigId, _freelancer, event) => {
       logger.info(`WorkSubmitted event: GigId ${gigId}`);
       await this.handleWorkSubmitted(gigId, event);
     });
 
     // GigCompleted
-    this.contract.on('GigCompleted', async (gigId, amountPaid, fee, event) => {
+    this.contract.on('GigCompleted', async (gigId, _amountPaid, _fee, event) => {
       logger.info(`GigCompleted event: GigId ${gigId}`);
       await this.handleGigCompleted(gigId, event);
     });
 
     // GigDisputed
-    this.contract.on('GigDisputed', async (gigId, initiator, event) => {
+    this.contract.on('GigDisputed', async (gigId, _initiator, event) => {
       logger.info(`GigDisputed event: GigId ${gigId}`);
       await this.handleGigDisputed(gigId, event);
     });
@@ -136,10 +136,10 @@ export class BlockchainListener {
 
   private async handleGigCreated(
     gigId: bigint,
-    client: string,
-    freelancer: string,
-    amount: bigint,
-    paymentToken: string,
+    _client: string,
+    _freelancer: string,
+    _amount: bigint,
+    _paymentToken: string,
     event: any
   ) {
     try {
@@ -151,7 +151,7 @@ export class BlockchainListener {
     }
   }
 
-  private async handleGigFunded(gigId: bigint, amount: bigint, event: any) {
+  private async handleGigFunded(gigId: bigint, _amount: bigint, event: any) {
     try {
       await this.processEvent(event);
 

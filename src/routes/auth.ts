@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request as ExpressRequest, Response as ExpressResponse, NextFunction } from 'express';
 import { body } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -20,7 +20,7 @@ router.post(
     body('role').isIn(['CLIENT', 'FREELANCER']).optional(),
     validate,
   ],
-  async (req, res, next) => {
+  async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
     try {
       const { email, password, fullName, role } = req.body;
 
@@ -56,10 +56,12 @@ router.post(
       });
 
       // Generate JWT
+      const jwtSecret = process.env.JWT_SECRET || 'dev_secret';
+      const jwtExpiry = process.env.JWT_EXPIRY || '7d';
       const token = jwt.sign(
         { userId: user.id, role: user.role },
-        process.env.JWT_SECRET!,
-        { expiresIn: process.env.JWT_EXPIRY || '7d' }
+        jwtSecret,
+        { expiresIn: jwtExpiry }
       );
 
       res.status(201).json({
@@ -80,7 +82,7 @@ router.post(
     body('password').notEmpty(),
     validate,
   ],
-  async (req, res, next) => {
+  async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
     try {
       const { email, password } = req.body;
 
@@ -103,10 +105,11 @@ router.post(
       });
 
       // Generate JWT
+      const jwtSecret = process.env.JWT_SECRET || 'dev_secret';
       const token = jwt.sign(
         { userId: user.id, role: user.role },
-        process.env.JWT_SECRET!,
-        { expiresIn: process.env.JWT_EXPIRY || '7d' }
+        jwtSecret,
+        { expiresIn: '7d' }
       );
 
       res.json({

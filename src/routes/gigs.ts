@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { body, query } from 'express-validator';
+import { Router, Response as ExpressResponse, NextFunction } from 'express';
+import { body } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
 import { authenticate } from '../middleware/auth';
 import { validate } from '../middleware/validate';
@@ -22,7 +22,7 @@ router.post(
     body('deadline').isISO8601(),
     validate,
   ],
-  async (req: any, res, next) => {
+  async (req: any, res: ExpressResponse, next: NextFunction) => {
     try {
       const {
         freelancerId,

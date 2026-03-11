@@ -23,5 +23,5 @@ export const generateWallet = async (): Promise<{ address: string; privateKey: s
 export const storeWallet = async (userId: string, privateKey: string): Promise<void> => {
   // TODO: Implement secure key storage (e.g., AWS KMS, HashiCorp Vault)
   // For now, this is handled in the database
-  console.log(`Wallet stored for user ${userId}`);
+  console.log(`Wallet stored for user ${userId}, key length: ${privateKey.length}`);
 };
