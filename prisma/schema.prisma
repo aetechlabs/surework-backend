@@ -5,6 +5,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Prisma 5.7.0 uses the 'url' property (Prisma v7 preview warning can be ignored)
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")

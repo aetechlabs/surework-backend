@@ -58,6 +58,7 @@ router.post(
       // Generate JWT
       const jwtSecret = process.env.JWT_SECRET || 'dev_secret';
       const jwtExpiry = process.env.JWT_EXPIRY || '7d';
+      // @ts-expect-error - jsonwebtoken v9.0.3 type definition issue with expiresIn
       const token = jwt.sign(
         { userId: user.id, role: user.role },
         jwtSecret,
